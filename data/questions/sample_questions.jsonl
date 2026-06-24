@@ -1,0 +1,1 @@
+{"id":"rds-multiaz","question":"A company runs a relational database on AWS and needs automatic failover if an Availability Zone fails. Which option should they choose?","options":["A. Amazon RDS Read Replica","B. Amazon RDS Multi-AZ deployment","C. Amazon S3 Cross-Region Replication","D. Amazon DynamoDB DAX"],"answer":"B"}

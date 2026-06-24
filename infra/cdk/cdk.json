@@ -1,0 +1,9 @@
+{
+  "app": "python app.py",
+  "context": {
+    "projectName": "aws-cert-ai",
+    "containerPort": 8000,
+    "bedrockModelId": "qwen.qwen3-32b",
+    "bedrockKnowledgeBaseId": ""
+  }
+}

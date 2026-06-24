@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI: local dev",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["aws_cert_ai.app.main:app", "--reload", "--port", "8000"],
+      "jinja": true
+    },
+    {
+      "name": "CLI: analyze sample",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "aws_cert_ai.app.cli",
+      "args": ["analyze-file", "data/questions/sample_questions.jsonl"],
+      "console": "integratedTerminal"
+    }
+  ]
+}
