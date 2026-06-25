@@ -42,8 +42,8 @@ ECS Fargate
 安装 Ollama 模型：
 
 ```bash
-ollama pull qwen2.5:7b
-ollama pull bge-m3
+ollama pull qwen3:0.6b
+ollama pull qwen3-embedding
 ```
 
 创建本地配置：
