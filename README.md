@@ -39,11 +39,13 @@ ECS Fargate
 
 ## 本地开发准备
 
+推荐使用 Python 3.12。当前 LangChain / Chroma / FastAPI 相关依赖在 Python 3.12 上更稳；如果你的 `python3` 指向 Python 3.13，可能遇到依赖 wheel 或原生编译问题。
+
 安装 Ollama 模型：
 
 ```bash
 ollama pull qwen3:0.6b
-ollama pull qwen3-embedding
+ollama pull qwen3-embedding:0.6b
 ```
 
 创建本地配置：
@@ -55,7 +57,7 @@ cp .env.example .env
 ## 安装依赖
 
 ```bash
-python -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```

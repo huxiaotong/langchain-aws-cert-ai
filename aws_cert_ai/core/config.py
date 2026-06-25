@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     rag_provider: Literal["chroma", "bedrock_kb"] = "chroma"
 
     local_llm_model: str = "qwen3:0.6b"
-    local_embedding_model: str = "qwen3-embedding"
+    local_embedding_model: str = "qwen3-embedding:0.6b"
     chroma_mode: Literal["chroma_http", "chroma_embedded"] = "chroma_http"
     chroma_host: str = "localhost"
     chroma_port: int = 8000
