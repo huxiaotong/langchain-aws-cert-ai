@@ -4,5 +4,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .vectorstore/
+.chroma_data/
 cdk.out/
 .DS_Store

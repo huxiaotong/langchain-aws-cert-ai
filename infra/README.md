@@ -11,6 +11,8 @@ Recommended target architecture:
 - CloudWatch stores logs.
 - IAM roles grant least-privilege access to Bedrock and knowledge sources.
 
+The application container should not include local `data/` files. In AWS, source knowledge documents belong in S3 and should be indexed by Bedrock Knowledge Base or the selected vector backend.
+
 Suggested first IaC implementation:
 
 1. Create ECR repository.

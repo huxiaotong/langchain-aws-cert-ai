@@ -10,6 +10,8 @@ from aws_cert_ai.core.schemas import ClassificationResult, RetrievedChunk
 
 
 def render_context(chunks: list[RetrievedChunk]) -> str:
+    """Format retrieved knowledge chunks for inclusion in the explanation prompt."""
+
     if not chunks:
         return "未检索到相关知识库内容。"
     return "\n\n".join(
@@ -24,6 +26,8 @@ def explain_question(
     classification: ClassificationResult,
     chunks: list[RetrievedChunk],
 ) -> str:
+    """Generate a Chinese exam-oriented explanation from question and RAG context."""
+
     chain = EXPLAIN_PROMPT | llm | StrOutputParser()
     return chain.invoke(
         {

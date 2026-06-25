@@ -11,6 +11,8 @@ from aws_cert_ai.core.schemas import ClassificationResult
 
 
 def _strip_json_markdown(raw: str) -> str:
+    """Remove optional Markdown fences around model-produced JSON."""
+
     cleaned = raw.strip()
     if cleaned.startswith("```json"):
         return cleaned.removeprefix("```json").removesuffix("```").strip()
@@ -20,6 +22,8 @@ def _strip_json_markdown(raw: str) -> str:
 
 
 def _parse_classification(raw: str) -> ClassificationResult:
+    """Parse model output into a classification object with raw fallback."""
+
     try:
         payload: dict[str, Any] = json.loads(_strip_json_markdown(raw))
         return ClassificationResult(**payload)
@@ -28,6 +32,8 @@ def _parse_classification(raw: str) -> ClassificationResult:
 
 
 def classify_question(llm: BaseChatModel, rendered_question: str) -> ClassificationResult:
+    """Classify a rendered question and extract services, topics, and keywords."""
+
     chain = CLASSIFY_PROMPT | llm | StrOutputParser()
     raw = chain.invoke({"question": rendered_question})
     return _parse_classification(raw)

@@ -7,6 +7,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Application settings loaded from environment variables and .env files."""
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     app_env: Literal["local", "aws"] = "local"
@@ -17,6 +19,10 @@ class Settings(BaseSettings):
 
     local_llm_model: str = "qwen2.5:7b"
     local_embedding_model: str = "bge-m3"
+    chroma_mode: Literal["chroma_http", "chroma_embedded"] = "chroma_http"
+    chroma_host: str = "localhost"
+    chroma_port: int = 8000
+    chroma_ssl: bool = False
     chroma_dir: Path = Path(".vectorstore/aws_cert")
     chroma_collection: str = "aws_cert_knowledge"
     knowledge_dir: Path = Path("data/knowledge")
@@ -31,4 +37,6 @@ class Settings(BaseSettings):
 
 
 def get_settings() -> Settings:
+    """Create a settings object for the current process environment."""
+
     return Settings()

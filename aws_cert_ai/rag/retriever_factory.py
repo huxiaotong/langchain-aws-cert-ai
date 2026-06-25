@@ -8,6 +8,8 @@ from aws_cert_ai.rag.local_chroma import create_chroma_retriever
 
 
 def create_retriever(settings: Settings) -> BaseRetriever:
+    """Create the configured RAG retriever for local or AWS execution."""
+
     if settings.rag_provider == "chroma":
         return create_chroma_retriever(settings)
     if settings.rag_provider == "bedrock_kb":

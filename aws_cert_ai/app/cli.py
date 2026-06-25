@@ -12,6 +12,8 @@ from aws_cert_ai.rag.local_chroma import ingest_local_knowledge
 
 
 def _question_from_json(data: dict[str, Any]) -> QuestionRecord:
+    """Convert one JSON object from a batch file into a question record."""
+
     options = data.get("options") or []
     if isinstance(options, str):
         options = [options]
@@ -24,6 +26,8 @@ def _question_from_json(data: dict[str, Any]) -> QuestionRecord:
 
 
 def _print_response(response) -> None:
+    """Print an analysis response in a readable CLI format."""
+
     print("\n=== 分类与知识点 ===")
     print(response.classification.model_dump_json(indent=2))
     print("\n=== 检索片段 ===")
@@ -35,6 +39,8 @@ def _print_response(response) -> None:
 
 
 def command_ingest(_: argparse.Namespace) -> None:
+    """Import local Markdown and text knowledge files into Chroma."""
+
     settings = get_settings()
     if settings.rag_provider != "chroma":
         raise SystemExit("ingest 命令只用于本地 Chroma。AWS 知识库请通过 S3/Bedrock KB 数据源同步。")
@@ -46,11 +52,15 @@ def command_ingest(_: argparse.Namespace) -> None:
 
 
 def command_analyze(args: argparse.Namespace) -> None:
+    """Analyze a single question passed directly on the command line."""
+
     response = analyze_question(get_settings(), QuestionInput(question=args.question))
     _print_response(response)
 
 
 def command_analyze_file(args: argparse.Namespace) -> None:
+    """Analyze every non-empty JSONL record in a question file."""
+
     settings = get_settings()
     path = Path(args.path)
     for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
@@ -66,6 +76,8 @@ def command_analyze_file(args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the command-line parser and register subcommands."""
+
     parser = argparse.ArgumentParser(description="AWS 认证题目分析 AI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -84,6 +96,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    """Run the CLI entrypoint."""
+
     parser = build_parser()
     args = parser.parse_args()
     args.func(args)

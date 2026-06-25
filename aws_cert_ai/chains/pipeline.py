@@ -11,6 +11,8 @@ from aws_cert_ai.rag.retriever_factory import create_retriever
 
 
 def _build_retrieval_query(question: str, classification: ClassificationResult) -> str:
+    """Combine the original question with extracted terms for better RAG recall."""
+
     terms = (
         classification.keywords
         + classification.knowledge_points
@@ -20,6 +22,8 @@ def _build_retrieval_query(question: str, classification: ClassificationResult) 
 
 
 def _document_to_chunk(document: Document) -> RetrievedChunk:
+    """Convert a LangChain document into the API response chunk schema."""
+
     score = document.metadata.get("score")
     return RetrievedChunk(
         content=document.page_content,
@@ -29,6 +33,8 @@ def _document_to_chunk(document: Document) -> RetrievedChunk:
 
 
 def analyze_question(settings: Settings, question_input: QuestionInput) -> AnalysisResponse:
+    """Run the full classify, retrieve, and explain pipeline for one question."""
+
     llm = create_chat_model(settings)
     retriever = create_retriever(settings)
 

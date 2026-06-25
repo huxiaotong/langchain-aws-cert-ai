@@ -11,6 +11,8 @@ from constructs import Construct
 
 
 class AwsCertAiStack(Stack):
+    """CDK stack that deploys the LangChain API to ECS Fargate."""
+
     def __init__(
         self,
         scope: Construct,
@@ -22,6 +24,8 @@ class AwsCertAiStack(Stack):
         bedrock_knowledge_base_id: str,
         **kwargs,
     ) -> None:
+        """Create networking, container, load balancer, logs, and Bedrock IAM access."""
+
         super().__init__(scope, construct_id, **kwargs)
 
         vpc = ec2.Vpc(

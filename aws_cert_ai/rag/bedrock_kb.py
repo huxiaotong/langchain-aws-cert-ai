@@ -6,6 +6,8 @@ from aws_cert_ai.core.config import Settings
 
 
 def create_bedrock_kb_retriever(settings: Settings) -> AmazonKnowledgeBasesRetriever:
+    """Create a retriever that queries an Amazon Bedrock Knowledge Base."""
+
     if not settings.bedrock_knowledge_base_id:
         raise ValueError("BEDROCK_KNOWLEDGE_BASE_ID is required when RAG_PROVIDER=bedrock_kb")
 

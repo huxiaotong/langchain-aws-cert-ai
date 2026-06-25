@@ -12,7 +12,7 @@
 - Python
 - FastAPI
 - LangChain
-- 本地：Ollama Qwen + Chroma
+- 本地：Ollama Qwen + Chroma Docker service
 - AWS：Bedrock Qwen + Bedrock Knowledge Base / OpenSearch
 - IaC：预留 `infra/`，推荐 AWS CDK 或 Terraform
 
@@ -24,7 +24,7 @@ VS Code
   -> FastAPI / CLI
   -> LangChain
   -> Ollama Qwen
-  -> Chroma
+  -> Chroma Docker service
   -> data/knowledge
 
 AWS 部署：
@@ -34,6 +34,8 @@ ECS Fargate
   -> Bedrock Knowledge Base
   -> S3
 ```
+
+本地的 `data/` 目录只用于本地开发和本地 Chroma ingest。AWS 部署时，知识文档应上传到 S3 并由 Bedrock Knowledge Base 同步，应用容器不打包 `data/`。
 
 ## 本地开发准备
 
@@ -56,6 +58,48 @@ cp .env.example .env
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+```
+
+## 启动 Chroma Docker 服务
+
+本项目只把 Chroma 放到 Docker 中运行。Python / LangChain 应用仍然在 VS Code 和本地虚拟环境中运行，`data/knowledge/` 也保留在项目目录里，不会放进 Chroma container。
+
+```bash
+docker compose up -d chroma
+```
+
+确认 Chroma 已启动：
+
+```bash
+curl http://localhost:8000/api/v2/heartbeat
+```
+
+对应 `.env` 配置：
+
+```env
+CHROMA_MODE=chroma_http
+CHROMA_HOST=localhost
+CHROMA_PORT=8000
+CHROMA_SSL=false
+```
+
+Chroma 的向量数据会持久化到本机目录：
+
+```text
+.chroma_data/
+```
+
+本地 AWS 知识库仍然放在：
+
+```text
+data/knowledge/
+```
+
+如果以后想退回 Python 进程内嵌入式 Chroma，可以改成：
+
+```env
+CHROMA_MODE=chroma_embedded
+CHROMA_DIR=.vectorstore/aws_cert
 ```
 
 ## 构建本地知识库

@@ -12,6 +12,8 @@ app = FastAPI(title="AWS Certification Question Analysis AI")
 
 @app.get("/health")
 def health() -> dict[str, str]:
+    """Return service health and active provider configuration."""
+
     settings = get_settings()
     return {
         "status": "ok",
@@ -23,4 +25,6 @@ def health() -> dict[str, str]:
 
 @app.post("/analyze", response_model=AnalysisResponse)
 def analyze(payload: QuestionInput) -> AnalysisResponse:
+    """Analyze one AWS certification question through the LangChain pipeline."""
+
     return analyze_question(get_settings(), payload)
